@@ -1,6 +1,9 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
+const generateMarkdown = require('./utils/generateMarkdown')
+const util = require('util')
+
 
 
 // TODO: Create an array of questions for user input
@@ -11,12 +14,11 @@ inquirer
     type: 'input',
     message: 'What is the name of your project?',
     name: 'title',
-    validate: your_input => {
-        if (your_input) {
+    validate: (userInput) => {
+        if (userInput) {
             return true;
         }else{
-            console.log('I need the name of your title!');
-            return false;
+            return 'I need the name of your title!';
         }
     }
 },
@@ -25,12 +27,11 @@ inquirer
     type: 'input',
     message: 'Add description of your project now.',
     name: 'descripton',
-    validate: your_input => {
-        if (your_input) {
+    validate: (userInput) => {
+        if (userInput) {
             return true;
         }else{
-            console.log('Please add a desctiption of your project!');
-            return false;
+            return 'Please add a desctiption of your project!';
         }
     }
 },
@@ -39,12 +40,11 @@ inquirer
     type: 'input',
     message: 'Describe how this project can be used.',
     name: 'use',
-    validate: your_input => {
-        if (your_input) {
+    validate: userInput => {
+        if (userInput) {
             return true;
         }else{
-            console.log('Please add a desctiption of use of your project!');
-            return false;
+            return 'Please add a desctiption of use of your project!';
         }
     }
 },
@@ -52,13 +52,12 @@ inquirer
 {
     type: 'input',
     message: 'Describe how user can install and run this project',
-    name: 'install/run',
-    validate: your_input => {
-        if (your_input) {
+    name: 'install',
+    validate: (userInput) => {
+        if (userInput) {
             return true;
         }else{
-            console.log('Please add a desctiption of how to install and run this procject!');
-            return false;
+            return 'Please add a desctiption of how to install and run this procject!';
         }
     }
 },
@@ -66,13 +65,12 @@ inquirer
 {
     type: 'input',
     message: 'Wat is your GitHub username?',
-    name: 'git/username',
-    validate: your_input => {
-        if (your_input) {
+    name: 'git',
+    validate: (userInput) => {
+        if (userInput) {
             return true;
         }else{
-            console.log('Please add your username now!');
-            return false;
+            return 'Please add your username now!';
         }
     }
 },
@@ -81,12 +79,11 @@ inquirer
     type: 'input',
     message: 'What is your email?',
     name: 'email',
-    validate: your_input => {
-        if (your_input) {
+    validate: userInput => {
+        if (userInput) {
             return true;
         }else{
-            console.log('Please add your email now!');
-            return false;
+            return 'Please add your email now!';
         }
     }
 },
@@ -95,28 +92,36 @@ inquirer
     type: 'input',
     message: 'Add credits to your project.',
     name: 'credits',
-    validate: your_input => {
-        if (your_input) {
+    validate: (userInput) => {
+        if (userInput) {
             return true;
         }else{
-            console.log('Are you sure there is no credits?');
+            return 'Are you sure there is no credits?';
+        }
+    }
+},
+//8th is for the test
+{
+    type: 'input',
+    message: 'Add credits to your project.',
+    name: 'test',
+    validate: (userInput) => {
+        if (userInput) {
             return true;
+        }else{
+            return 'Please input testing methods.';
         }
     }
 },
 ])
 .then((data) => {
-    const filename = `${'README'.toUpperCase().split(' ').join('')}.md`;
+  const filename = `${'README'.toUpperCase().split(' ').join('')}.md`;
 
-    fs.writeFile(filename, JSON.stringify(data, null, '\t'), (err) =>
-      err ? console.log(err) : console.log('Success!')
-    );
+  fs.writeFile(filename, generateMarkdown, (err) =>
+    err ? console.log(err) : console.log('Success!')
+  );
 });
 // TODO: Create a function to initialize app
 
 // Function call to initialize app
-init()
-
-
-
-
+//init();
