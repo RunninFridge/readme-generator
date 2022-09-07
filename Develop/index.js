@@ -2,14 +2,10 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 const generateMarkdown = require('./utils/generateMarkdown')
-const util = require('util')
-
-
 
 // TODO: Create an array of questions for user input
 // Inquirer prompts for user responses/ first prompt is for the name.
-inquirer 
-.prompt([
+const questions = [
     {
     type: 'input',
     message: 'What is the name of your project?',
@@ -22,7 +18,7 @@ inquirer
         }
     }
 },
-//second prompt is for the description.
+//2nd prompt is for the description.
 {
     type: 'input',
     message: 'Add description of your project now.',
@@ -35,7 +31,7 @@ inquirer
         }
     }
 },
-//third prompt is for describing how to use this project.
+//3rd prompt is for describing how to use this project.
 {
     type: 'input',
     message: 'Describe how this project can be used.',
@@ -48,7 +44,21 @@ inquirer
         }
     }
 },
-//fourth is for how to install/run
+//4th is for the license
+{
+    type: 'list',
+    message: 'What is your license for this ?',
+    name: 'license',
+    choices: ['MIT', 'Apache_2.0', 'Eclipse', 'GNU', 'Unlicense'],
+    validate: userInput => {
+        if (userInput) {
+            return true;
+        }else{
+            return 'Please add a license of use of your project!';
+        }
+    }
+},
+//5th is for how to install
 {
     type: 'input',
     message: 'Describe how user can install and run this project',
@@ -61,10 +71,10 @@ inquirer
         }
     }
 },
-//fifth is for the username
+//6th is for the username
 {
     type: 'input',
-    message: 'Wat is your GitHub username?',
+    message: 'What is your GitHub username?',
     name: 'git',
     validate: (userInput) => {
         if (userInput) {
@@ -74,7 +84,7 @@ inquirer
         }
     }
 },
-//sixth is for the email
+//7th is for the email
 {
     type: 'input',
     message: 'What is your email?',
@@ -87,7 +97,7 @@ inquirer
         }
     }
 },
-//seventh is for the credits
+//8th is for the credits
 {
     type: 'input',
     message: 'Add credits to your project.',
@@ -100,10 +110,10 @@ inquirer
         }
     }
 },
-//8th is for the test
+//9th is for the test
 {
     type: 'input',
-    message: 'Add credits to your project.',
+    message: 'Add testing methods to your project.',
     name: 'test',
     validate: (userInput) => {
         if (userInput) {
@@ -113,15 +123,24 @@ inquirer
         }
     }
 },
-])
-.then((data) => {
-  const filename = `${'README'.toUpperCase().split(' ').join('')}.md`;
+];
 
-  fs.writeFile(filename, generateMarkdown, (err) =>
+const fileName = `README.md`;
+function writeToFile (filename, data) {
+  fs.writeFile(filename, generateMarkdown(data, null, '\t'), (err) => 
     err ? console.log(err) : console.log('Success!')
   );
-});
-// TODO: Create a function to initialize app
+};
 
-// Function call to initialize app
-//init();
+function init() {
+    //readmeGenPrompt(questions)
+    inquirer.prompt(questions)
+    .then((data) => {   
+        writeToFile(fileName, data)
+    })  
+    .catch((err) => {
+        console.log(err);
+    });
+};
+
+init();

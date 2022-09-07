@@ -1,7 +1,8 @@
+//Basic layout was taken off google.
 function generateMarkdown(data) {
   return `# ${data.title}
   ## License:
-  [![license](link)]
+  ![license](https://img.shields.io/badge/license-${data.license}-brightgreen)
   ## Table of Contents
   - [Description](#descripton)
   - [Installation](#install)
