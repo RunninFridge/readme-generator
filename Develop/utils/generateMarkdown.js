@@ -1,4 +1,4 @@
-//Basic layout was taken off google.
+//Basic layout was taken off google/markdown.
 function generateMarkdown(data) {
   return `# ${data.title}
   ## License:
